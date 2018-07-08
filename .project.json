@@ -1,0 +1,7 @@
+{
+  "basevalidator": {
+    "services": {
+      "js": "jsValidator"
+    }
+  }
+}
