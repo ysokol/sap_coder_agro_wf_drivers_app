@@ -7,5 +7,9 @@ mock_preview_sapui5.html
 fioriHtmlRunner.html
 .*/fioriHtmlRunner.html
 visual_ext_index.html
+<<<<<<< HEAD
 /webapp/visual_ext_index.html
 /.user.project.json
+=======
+/webapp/visual_ext_index.html
+>>>>>>> branch 'master' of https://github.com/ysokol/sap_coder_agro_wf_drivers_app.git
