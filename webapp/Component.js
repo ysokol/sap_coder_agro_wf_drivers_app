@@ -1,13 +1,16 @@
 //jQuery.sap.registerModulePath("my.sapui5_components_library", "https://rawgit.com/ysokol/my_sapui5_components_library/master/src/");
 jQuery.sap.registerModulePath("my.sapui5_components_library",
 	"https://raw.githubusercontent.com/ysokol/my_sapui5_components_library/master/src/");
+jQuery.sap.registerModulePath("my.sap_coder_agro_ui_library",
+	"https://raw.githubusercontent.com/ysokol/sap_coder_agro_ui_library/master/src/");
 
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"my/sap_coder_agro_wf_drivers_app/model/models",
-	"my/sapui5_components_library/sap/workflow/WorkflowService"
-], function(UIComponent, Device, models, WorkflowService) {
+	"my/sapui5_components_library/sap/workflow/WorkflowService",
+	"my/sapui5_components_library/sap/ui5/UserService"
+], function(UIComponent, Device, models, WorkflowService, UserService) {
 	"use strict";
 
 	return UIComponent.extend("my.sap_coder_agro_wf_drivers_app.Component", {
@@ -22,8 +25,10 @@ sap.ui.define([
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
 			this.setModel(this._initJsonModelFromWf(), "context");
-			this.setModel(models.createODataModel());
+			this.setModel(new sap.ui.model.json.JSONModel());
+			this.setModel(models.createODataModel(), "odata");
 			this._oWorkflowService = new WorkflowService();
+			this._oUserService = new UserService();
 			this._oInitialised.resolve();
 			//this._initJsonModelFromWf();
 		},
