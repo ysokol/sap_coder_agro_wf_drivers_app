@@ -7,14 +7,12 @@ sap.ui.define([
 	"my/sapui5_components_library/yandex/maps/MapPlacemarkCollection",
 	"my/sapui5_components_library/yandex/maps/MapRoute",
 	"my/sap_coder_agro_ui_library/utils/ValueListClassifier"
-], function(Object, YandexMap, MapPlacemark, PlacemarkDetail, PlacemarkAction, MapPlacemarkCollection, MapRoute, ValueListClassifier) {
+], function (Object, YandexMap, MapPlacemark, PlacemarkDetail, PlacemarkAction, MapPlacemarkCollection, MapRoute, ValueListClassifier) {
 	"use strict";
-	/*eslint-env es6*/
-	/*global ymaps*/
 
 	// https://tech.yandex.ru/maps/jsbox/2.1/object_manager_spatial
 	return Object.extend("my.sap_coder_agro_wf_drivers_app.view.TransportationMapViewBuilder", {
-		constructor: function(oYandexMap, sMapControlId, oODataModel, sBindingPath, oController) {
+		constructor: function (oYandexMap, sMapControlId, oODataModel, sBindingPath, oController) {
 			Object.apply(this);
 			this._oYandexMap = oYandexMap;
 			this._sMapControlId = sMapControlId;
@@ -23,10 +21,10 @@ sap.ui.define([
 			this._oController = oController;
 			this._oValueListClassifier = new ValueListClassifier();
 		},
-		classify: function(iValue) {
+		classify: function (iValue) {
 			return this._oValueListClassifier.classify(iValue, 10, 30, 60, 120);
 		},
-		buildMapView: function() {
+		buildMapView: function () {
 			this._oYandexMap.init({
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 				sMapControlId: this._sMapControlId,
@@ -41,7 +39,7 @@ sap.ui.define([
 				}
 			});
 		},
-		createRoutes: function() {
+		createRoutes: function () {
 			return [
 				new MapRoute({
 					oMapControl: this._oYandexMap,
@@ -65,7 +63,8 @@ sap.ui.define([
 				})
 			];
 		},
-		createShipFromPlacemark: function() {
+		createShipFromPlacemark: function () {
+			var that = this;
 			return new MapPlacemark({
 				oMapControl: this._oYandexMap,
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
@@ -75,19 +74,22 @@ sap.ui.define([
 					aBottomDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							fnIcon: (oContext) =>
-								(this.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
-								(this.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
-								(this.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
-								(this.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
-								(this.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" : "images/unknown.png",
+							fnIcon: function (oContext) {
+								return (that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" : "images/unknown.png";
+							},
 							sIconWidth: "12px",
 							sIconHeight: "12px"
 						}
 					})],
 					aRightDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
-						fnIsVisible: (oContext) => false,
+						fnIsVisible: function (oContext) {
+							return false;
+						},
 						oParams: {
 							sIcon: "images/checked.png",
 							sIconWidth: "10px",
@@ -97,23 +99,28 @@ sap.ui.define([
 					aHintDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							fnText: (oContext) => "Ship From: " + oContext.getProperty("ShipFrom")
+							fnText: function (oContext) {
+								return "Ship From: " + oContext.getProperty("ShipFrom");
+							}
 						}
 					})],
 					aPlacemarkActions: [new PlacemarkAction({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							fnText: (oContext) => "Location Details",
-							fnOnPress: (
-									oContext
-								) =>
-								this._oController.onNavigateToProducingLocationDetails(oContext.getProperty("").ShippingLocationDetails.__ref)
+							fnText: function (oContext) {
+								return "Location Details";
+							},
+							fnOnPress: function (
+								oContext
+							) {
+								return that._oController.onNavigateToProducingLocationDetails(oContext.getProperty("").ShippingLocationDetails.__ref);
+							}
 						}
 					})]
 				}
 			});
 		},
-		createTruckPlacemark: function() {
+		createTruckPlacemark: function () {
 			return new MapPlacemark({
 				oMapControl: this._oYandexMap,
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
@@ -125,7 +132,8 @@ sap.ui.define([
 				}
 			});
 		},
-		createShipToPlacemark: function() {
+		createShipToPlacemark: function () {
+			var that = this;
 			return new MapPlacemark({
 				oMapControl: this._oYandexMap,
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
@@ -135,12 +143,14 @@ sap.ui.define([
 					aBottomDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							fnIcon: (oContext) =>
-								(this.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
-								(this.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
-								(this.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
-								(this.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
-								(this.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" : "images/unknown.png",
+							fnIcon: function (oContext) {
+								return (that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" :
+									"images/unknown.png";
+							},
 							sIconWidth: "12px",
 							sIconHeight: "12px"
 						}
@@ -151,56 +161,63 @@ sap.ui.define([
 							sIcon: "images/checked.png",
 							sIconWidth: "10px",
 							sIconHeight: "10px",
-							fnIsVisible: (oContext) => oContext.getProperty("Status") === "ACCEPTED"
+							fnIsVisible: function (oContext) {
+								return oContext.getProperty("Status") === "ACCEPTED";
+							}
 						}
 					})],
-					/*oTopLeftDetails: new PlacemarkDetail({
-						oContext: new sap.ui.model.Context(this._oODataModel, this._sTransportationPath),
-						oParams: {
-							fnText: (oContext) => oContext.getProperty("AssignmentIndex")
-						}
-					}),*/
 					aHintDetails: [
 						new PlacemarkDetail({
 							oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 							oParams: {
-								fnText: (oContext) => "<b>Shipping Location</b>: " + oContext.getProperty("TransportationDetails/ShipToLocation") +
-									" (" + oContext.getProperty("TransportationDetails/ShippingLocationDetails1/Description") + ")"
+								fnText: function (oContext) {
+									return "<b>Shipping Location</b>: " + oContext.getProperty("TransportationDetails/ShipToLocation") +
+										" (" + oContext.getProperty("TransportationDetails/ShippingLocationDetails1/Description") + ")";
+								}
 							}
 						}),
 						new PlacemarkDetail({
 							oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 							oParams: {
-								fnText: (oContext) => "<b>Processing Time</b>: " + oContext.getProperty("ProcessingTimeMinutes") + " min"
+								fnText: function (oContext) {
+									return "<b>Processing Time</b>: " + oContext.getProperty("ProcessingTimeMinutes") + " min";
+								}
 							}
 						}),
 						new PlacemarkDetail({
 							oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 							oParams: {
-								fnText: (oContext) => "<b>Travel Time</b>: " + oContext.getProperty("TravelTimeMinutes") + " min"
+								fnText: function (oContext) {
+									return "<b>Travel Time</b>: " + oContext.getProperty("TravelTimeMinutes") + " min";
+								}
 							}
 						}),
 						new PlacemarkDetail({
 							oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 							oParams: {
-								fnText: (oContext) => "<b>Queue Time</b>: " + oContext.getProperty("UnloadQueueTimeMinutes") + " min"
+								fnText: function (oContext) {
+									return "<b>Queue Time</b>: " + oContext.getProperty("UnloadQueueTimeMinutes") + " min";
+								}
 							}
 						}),
 						new PlacemarkDetail({
 							oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 							oParams: {
-								fnText: (oContext) => "<b>Unload Time</b>: " + oContext.getProperty("UnloadTimeMinutes") + " min"
+								fnText: function (oContext) {
+									return "<b>Unload Time</b>: " + oContext.getProperty("UnloadTimeMinutes") + " min";
+								}
 							}
 						})
 					],
 					aPlacemarkActions: [new PlacemarkAction({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							fnText: (oContext) => "Storage Location Details",
-							fnOnPress: (
-									oContext
-								) =>
-								this._oController.onNavigateToStorageLocationDetails(oContext.getProperty("").ShippingLocationDetails1.__ref)
+							fnText: function (oContext) {
+								return "Storage Location Details";
+							},
+							fnOnPress: function (oContext) {
+								return that._oController.onNavigateToStorageLocationDetails(oContext.getProperty("").ShippingLocationDetails1.__ref);
+							}
 						}
 					})]
 				}
