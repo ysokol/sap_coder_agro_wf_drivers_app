@@ -62,7 +62,7 @@
 		"resources": {
 			"css": [
 				{
-					"uri": "css/style.css"
+					"uri": "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/css/style.css"
 				}
 			]
 		},

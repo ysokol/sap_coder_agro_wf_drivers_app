@@ -25,32 +25,26 @@ sap.ui.define([
 			UIComponent.prototype.init.apply(this, arguments);
 			this.getRouter().initialize();
 			this.setModel(models.createDeviceModel(), "device");
-			this.setModel(this._getContextModel(), "context");
+			this.setModel(new sap.ui.model.json.JSONModel(), "context");
 			this.setModel(new sap.ui.model.json.JSONModel());
 			this.setModel(models.createODataModel(), "odata");
 			this._oWorkflowService = new WorkflowService();
 			this._oUserService = new UserService();
 			var that = this;
-			setTimeout(function() {that._oInitialised.resolve()}, 10000);
-			//this._initJsonModelFromWf();
+			this._getWorkflowTaskDetails().then(function (oTaskContext) {
+				that.getModel("context").setData(oTaskContext);
+				that._oInitialised.resolve()
+			});
 		},
-		_getContextModel: function () {
-			if (!this.getComponentData) {
-				return new sap.ui.model.json.JSONModel(this._getMockData());
-			}
-			if (!this.getComponentData().startupParameters) {
-				return new sap.ui.model.json.JSONModel(this._getMockData());
-			}
+		_getWorkflowTaskDetails: function () {
+			debugger;
 			this._oStartupParameters = this.getComponentData().startupParameters;
 			var taskModel = this._oStartupParameters.taskModel;
-			if (!taskModel) {
-				return new sap.ui.model.json.JSONModel(this._getMockData());
-			}
 			var taskData = taskModel.getData();
 			this._sTaskId = taskData.InstanceID;
-			return new sap.ui.model.json.JSONModel("/bpmworkflowruntime/rest/v1/task-instances/" + this._sTaskId + "/context");
-
-		},
+			
+			return this._oWorkflowService.getTaskContext(this._sTaskId);
+		}/*,
 		_getMockData: function () {
 			return {
 				"oTransportation": {
@@ -58,6 +52,6 @@ sap.ui.define([
 					"sTransportationPath": "Transportations('1020')"
 				}
 			};
-		}
+		}*/
 	});
 });

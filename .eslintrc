@@ -86,7 +86,7 @@
 		"no-proto": 1,
 		"no-redeclare": 1,
 		"no-regex-spaces": 1,
-		"no-reserved-keys": 2,
+		"no-reserved-keys": 0,
 		"no-restricted-modules": 0,
 		"no-return-assign": 1,
 		"no-script-url": 1,
@@ -403,6 +403,5 @@
 		"mocha": true,
 		"jquery": true,
 		"es6": true
-	},
-	"customRulesPath": null
+	}
 }

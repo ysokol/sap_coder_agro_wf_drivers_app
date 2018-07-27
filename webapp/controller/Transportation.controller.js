@@ -6,16 +6,16 @@ sap.ui.define([
 	"my/sap_coder_agro_wf_drivers_app/view/TransportationMapViewBuilder"
 ], function (Controller, JSONModel, formatter, YandexMap, TransportationMapViewBuilder) {
 	"use strict";
-
-
-
+	/*eslint-env es6*/
+	
 	return Controller.extend("my.sap_coder_agro_wf_drivers_app.controller.Transportation", {
 		formatter: formatter,
 		onInit: function () {
-			var that = this;
+			let that = this;
 			that._oYandexMap = new YandexMap();
 			$.when(that.getOwnerComponent()._oInitialised)
-				.done(function() {
+				.done(function () {
+
 					that.getView().setModel(that.getOwnerComponent().getModel());
 					var sTransportationPath = that.getOwnerComponent().getModel("context").getProperty("/").oTransportation.sTransportationPath;
 					that.getOwnerComponent().getModel("odata").readExt("/" + sTransportationPath + "/TransportationAssignmentDetails", {
@@ -29,15 +29,17 @@ sap.ui.define([
 						.then(function (oData) {
 							that.getOwnerComponent().getModel().setData(oData.results[0]);
 							that.bindView("/");
-							that._oYandexMap.initYandexMapsApi().then(function() {that.onMapInit("/");});
-							if (that.getOwnerComponent()._oStartupParameters) {
+							that._oYandexMap.initYandexMapsApi().then(function () {
+								that.onMapInit("/");
+							});
+							if (that.getOwnerComponent()._oStartupParameters && that.getOwnerComponent()._oStartupParameters.inboxAPI) {
 								that.getOwnerComponent()._oStartupParameters.inboxAPI.addAction({
 									action: "Reject",
-									label: "Reject"
+									label: "Reject1"
 								}, that.onRejectTransportation, that);
-								that.getOwnerComponent()._startupParameters.inboxAPI.addAction({
-									action: "Approve",
-									label: "Approve"
+								that.getOwnerComponent()._oStartupParameters.inboxAPI.addAction({
+									action: "Accept",
+									label: "Accept"
 								}, that.onAcceptTransportation, that);
 							}
 						});
@@ -49,7 +51,23 @@ sap.ui.define([
 				sBindingPath, this);
 			oTransportationMapViewBuilder.buildMapView();
 		},
-		onAcceptTransportation: function (oEvent) {},
+		onAcceptTransportation: function (oEvent) {
+			debugger;
+			var that = this;
+			that.getOwnerComponent()._oWorkflowService.getTaskDetails(that.getOwnerComponent()._sTaskId)
+				.then(function (oTaskDetails) {
+					that.getOwnerComponent()._oWorkflowService.patchContext(oTaskDetails.workflowInstanceId, {
+						oTransportation: {
+							sAcceptedDriver: that.getOwnerComponent()._oUserService.getCurrentUser()
+						}
+					}).then(function () {
+						that.getOwnerComponent()._oWorkflowService.completeTask(that.getOwnerComponent()._sTaskId)
+							.then(function () {
+								that.getOwnerComponent()._oStartupParameters.inboxAPI.updateTask("NA", that.getOwnerComponent()._sTaskId);
+							});
+					});
+				});
+		},
 		onRejectTransportation: function (oEvent) {},
 		onNavigateToProducingLocationDetails: function (sShippingLocationPath) {
 			this.getOwnerComponent().getRouter().navTo("ProducingLocation", {

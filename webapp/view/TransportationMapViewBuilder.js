@@ -70,16 +70,16 @@ sap.ui.define([
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 				oParams: {
 					sGeoLocationProperty: "TransportationDetails/ShippingLocationDetails/GeoLocation",
-					sIcon: "images/farm.png",
+					sIcon: "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/farm.png",
 					aBottomDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
 							fnIcon: function (oContext) {
-								return (that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
-									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
-									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
-									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
-									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" : "images/unknown.png";
+								return (that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 1) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_1_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 2) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_2_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 3) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_3_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 4) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_4_of_5.png" :
+									(that.classify(oContext.getProperty("LoadQueueTimeMinutes")) === 5) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_5_of_5.png" : "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/unknown.png";
 							},
 							sIconWidth: "12px",
 							sIconHeight: "12px"
@@ -91,7 +91,7 @@ sap.ui.define([
 							return false;
 						},
 						oParams: {
-							sIcon: "images/checked.png",
+							sIcon: "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/checked.png",
 							sIconWidth: "10px",
 							sIconHeight: "10px"
 						}
@@ -126,7 +126,7 @@ sap.ui.define([
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 				oParams: {
 					sGeoLocationProperty: "TruckDetails/GeoLocation",
-					sIcon: "images/truck_257_136.png",
+					sIcon: "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/truck_257_136.png",
 					aBottomDetails: [],
 					aRightDetails: []
 				}
@@ -139,17 +139,17 @@ sap.ui.define([
 				oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 				oParams: {
 					sGeoLocationProperty: "TransportationDetails/ShippingLocationDetails1/GeoLocation",
-					sIcon: "images/warehouse.png",
+					sIcon: "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/warehouse.png",
 					aBottomDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
 							fnIcon: function (oContext) {
-								return (that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 1) ? "images/status_1_of_5.png" :
-									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 2) ? "images/status_2_of_5.png" :
-									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 3) ? "images/status_3_of_5.png" :
-									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 4) ? "images/status_4_of_5.png" :
-									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 5) ? "images/status_5_of_5.png" :
-									"images/unknown.png";
+								return (that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 1) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_1_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 2) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_2_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 3) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_3_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 4) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_4_of_5.png" :
+									(that.classify(oContext.getProperty("UnloadQueueTimeMinutes")) === 5) ? "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/status_5_of_5.png" :
+									"/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/unknown.png";
 							},
 							sIconWidth: "12px",
 							sIconHeight: "12px"
@@ -158,7 +158,7 @@ sap.ui.define([
 					aRightDetails: [new PlacemarkDetail({
 						oContext: new sap.ui.model.Context(this._oODataModel, this._sBindingPath),
 						oParams: {
-							sIcon: "images/checked.png",
+							sIcon: "/sap/fiori/bpmmyinbox/html5apps/sapcoderagrowfdriversapp/images/checked.png",
 							sIconWidth: "10px",
 							sIconHeight: "10px",
 							fnIsVisible: function (oContext) {
