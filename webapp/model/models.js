@@ -1,6 +1,6 @@
 sap.ui.define([
 	"sap/ui/model/json/JSONModel",
-	"my/sapui5_components_library/sap/ui5/ODataModelExt",
+	"com/pepsico/core/sap/ui/model/odata/v2/ODataModel",
 	"sap/ui/Device"
 ], function (JSONModel, ODataModelExt, Device) {
 	"use strict";
@@ -14,10 +14,9 @@ sap.ui.define([
 		},
 
 		createODataModel: function (bIsMobileDevice) {
-			debugger;
 			return new ODataModelExt(
-				"/html5apps/sapcoderagrowfdriversapp/odata", {
-				//"/odata", {
+				//"/html5apps/sapcoderagrowfdriversapp/odata", {
+				"/odata", {
 					json: true,
 					useBatch: false,
 					defaultBindingMode: sap.ui.model.BindingMode.TwoWay,

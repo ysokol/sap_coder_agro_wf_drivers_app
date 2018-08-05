@@ -20,7 +20,6 @@
 						<items>
 							<IconTabFilter icon="sap-icon://hint" tooltip="{Visit Details}">
 								<html:div id="map" style="width: 100%; height: 400px; padding: 0; margin: 0;"></html:div>
-								
 							</IconTabFilter>
 							<IconTabFilter icon="sap-icon://fridge" tooltip="Equipment">
 								<form:Form>
@@ -77,6 +76,9 @@
 						</items>
 					</IconTabBar>
 				</semantic:content>
+				<semantic:mainAction>
+					<semantic:MainAction text="Add Road Event" press="onAddRoadEvent"/>
+				</semantic:mainAction>
 				<!--<semantic:customFooterContent>
 					<Button icon="sap-icon://decline" text="Cancel" press="onTransporationCancel"/>
 					<Button icon="sap-icon://accept" text="Release" press="onTransporationRelease"/>
